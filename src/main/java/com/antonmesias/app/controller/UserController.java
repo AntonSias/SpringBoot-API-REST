@@ -1,7 +1,10 @@
 package com.antonmesias.app.controller;
 
 import java.sql.Savepoint;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,6 +76,16 @@ public class UserController {
 		
 		userService.deleteById(userId);
 		return ResponseEntity.ok().build();
+	}
+	
+	//read all users
+	@GetMapping
+	public List<User> readAll(){
+		
+		List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false)
+				.collect(Collectors.toList());
+		
+		return users;
 	}
 	
 }
